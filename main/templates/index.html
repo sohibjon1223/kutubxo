@@ -1,0 +1,101 @@
+{% extends "base.html" %}
+{% block title %}Bosh sahifa{% endblock %}
+{% block content %}
+
+<style>
+  .hero-section {
+    color: white;
+    text-align: center;
+    padding: 120px 20px;
+    position: relative;
+  }
+
+  .hero-section h1 {
+    font-family: 'Georgia', serif;
+    font-size: 4rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+
+  .hero-section p {
+    font-size: 1.5rem;
+    font-family: 'Inter', sans-serif;
+    color: #f8f9fa;
+  }
+
+  .section-title {
+    font-size: 1.8rem;
+    font-weight: 600;
+    border-bottom: 2px solid #ddd;
+    padding-bottom: 10px;
+    margin-bottom: 30px;
+  }
+
+  .card-img-top {
+    height: 180px;
+    object-fit: cover;
+  }
+
+  .card-body p {
+    font-size: 0.95rem;
+  }
+
+  .section {
+    padding: 40px 0;
+  }
+</style>
+
+<!-- Hero Section -->
+ <!-- Content Section -->
+<div class="container section">
+  <div class="row">
+    <!-- Kitoblar -->
+    <div class="col-lg-6 mb-4">
+      <div class="section-title">📘 Kitoblar</div>
+      {% for book in books %}
+        <div class="card mb-3 shadow-sm border-0">
+          <div class="row g-0">
+            <div class="col-md-4">
+              <img src="{{ book.image.url }}" class="img-fluid rounded-start" alt="{{ book.title }}">
+            </div>
+            <div class="col-md-8">
+              <div class="card-body">
+                <h5 class="card-title">{{ book.title }}</h5>
+                <p class="card-text text-muted">{{ book.description|truncatewords:20 }}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      {% empty %}
+        <p>📭 Hozircha kitob mavjud emas.</p>
+      {% endfor %}
+    </div>
+
+    <!-- Yangiliklar -->
+    <div class="col-lg-6 mb-4">
+      <div class="section-title">📰 Yangiliklar</div>
+      {% for item in news %}
+        <div class="card mb-3 shadow-sm border-0">
+          <div class="row g-0">
+            <div class="col-md-4">
+              <img src="{{ item.image.url }}" class="img-fluid rounded-start" alt="{{ item.title }}">
+            </div>
+            <div class="col-md-8">
+              <div class="card-body">
+                <h5 class="card-title">{{ item.title }}</h5>
+                <p class="card-text text-muted">{{ item.content|truncatewords:20 }}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      {% empty %}
+        <p>📭 Hozircha yangilik mavjud emas.</p>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+<!-- Footer -->
+
+
+{% endblock %}

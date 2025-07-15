@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+<head><title>Kitobni tahrirlash</title></head>
+<body>
+    <h1>Kitobni tahrirlash: {{ book.title }}</h1>
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Saqlash</button>
+    </form>
+    <a href="{% url 'admin_page' %}">⬅️ Orqaga</a>
+</body>
+</html>

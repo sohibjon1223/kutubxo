@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% block title %}Bosh sahifa{% endblock %}
+{% block content %}
+
+<!DOCTYPE html>
+<html>
+<head><title>Asosiy Sahifa</title>
+<style>
+        body {
+            font-family: sans-serif;
+            margin: 20px;
+        }
+        .section {
+            margin-bottom: 40px;
+        }
+        .item {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin: 10px 0;
+            display: flex;
+            gap: 10px;
+        }
+        .item img {
+            width: 100px;
+            height: auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>Asosiy sahifa</h1>
+    <a href="{% url 'admin_page' %}">Admin sahifaga o‘tish</a>
+    <div style="display: flex;">
+        <div style="width: 50%;">
+            <h2>📚 Kitoblar</h2>
+            {% for book in books %}
+                <div style="border:1px solid gray; margin:5px; padding:5px;">
+                    <h3>{{ book.title }}</h3>
+                    <img src="{{ book.image.url }}" alt="" width="100">
+                    <p>{{ book.description }}</p>
+                </div>
+            {% empty %}
+                <p>Hozircha kitob yo‘q</p>
+            {% endfor %}
+        </div>
+
+        <div style="width: 50%;">
+            <h2>📰 Yangiliklar</h2>
+            {% for item in news %}
+                <div style="border:1px solid gray; margin:5px; padding:5px;">
+                    <h3>{{ item.title }}</h3>
+                    <img src="{{ item.image.url }}" alt="" width="100">
+                    <p>{{ item.content }}</p>
+                </div>
+            {% empty %}
+                <p>Hozircha yangilik yo‘q</p>
+            {% endfor %}
+        </div>
+    </div>
+</body>
+</html>
+{% endblock %}

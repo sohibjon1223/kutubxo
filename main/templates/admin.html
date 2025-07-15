@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Admin Sahifa</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background-color: #f0f2f5;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h2, h3 {
+            color: #2c3e50;
+        }
+
+        form {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+
+        button {
+            background-color: #3498db;
+            color: black;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            animation: none;
+        }
+
+        button:hover {
+            background-color: #27ae60;
+            animation: rainbowText 2s linear infinite;
+        }
+
+        .card {
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 10px 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .card:hover {
+            transform: scale(1.01);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+
+        .card img {
+            border-radius: 5px;
+            margin-top: 5px;
+        }
+
+        a {
+            color: #2980b9;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        a:hover {
+            color: #1abc9c;
+        }
+
+        hr {
+            margin: 40px 0;
+        }
+
+        h1 a {
+            font-size: 18px;
+            background-color: #e74c3c;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 5px;
+            text-decoration: none;
+        }
+
+        h1 a:hover {
+            background-color: #c0392b;
+        }
+
+        @keyframes rainbowText {
+            0%   { color: green; }
+            25%  { color: yellow; }
+            50%  { color: red; }
+            75%  { color: purple; }
+            100% { color: green; }
+        }
+    </style>
+</head>
+<body>
+    <h1><a href="{% url 'logout' %}">🔓 Chiqish</a></h1>
+    <h2>📘 Kitob qo‘shish</h2>
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ book_form.as_p }}
+        <button type="submit">Kitobni saqlash</button>
+    </form>
+
+    <h3>Kitoblar ro‘yxati:</h3>
+    {% for book in books %}
+        <div class="card">
+            <strong>{{ book.title }}</strong><br>
+            <small>📅 Qo‘shilgan sana: {{ book.created_at|date:"Y-m-d H:i" }}</small><br>
+            {% if book.image %}
+                <img src="{{ book.image.url }}" width="100"><br>
+            {% endif %}
+            <a href="{% url 'edit_book' book.id %}">✏️ Tahrirlash</a>
+        </div>
+    {% endfor %}
+
+    <hr>
+
+<hr>
+
+<h2>📰 Yangilik qo‘shish</h2>
+<form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ news_form.as_p }}
+    <button type="submit" name="submit_news">Yangilikni saqlash</button>
+</form>
+
+<h3>Yangiliklar ro‘yxati:</h3>
+{% for item in news_list %}
+    <div class="card">
+        <strong>{{ item.title }}</strong><br>
+        <small>📅 E’lon qilingan: {{ item.created_at|date:"Y-m-d H:i" }}</small><br>
+        {% if item.image %}
+            <img src="{{ item.image.url }}" width="100"><br>
+        {% endif %}
+        <a href="{% url 'edit_news' item.id %}">✏️ Tahrirlash</a>
+    </div>
+{% endfor %}
+
+
+
+</body>
+</html>

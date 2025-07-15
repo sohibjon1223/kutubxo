@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Kitoblar{% endblock %}
+
+{% block content %}
+<head>
+  <!-- Google Fonts & Font Awesome -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet" />
+  <style>
+    footer {
+      background: #1a1a2e;
+      color: #ccc;
+      text-align: center;
+      padding: 20px;
+      margin-top: 40px;
+    }
+
+    .instagram-icon,
+    .instagram-icon1,
+    .instagram-icon2,
+    .instagram-icon3 {
+      font-size: 40px;
+      margin: 0 10px;
+      text-decoration: none;
+    }
+
+    .instagram-icon { color: #E1306C; }
+    .instagram-icon1 { color: #3059e1; }
+    .instagram-icon2 { color: #E1306C; }
+    .instagram-icon3 { color: #4be085; }
+  </style>
+</head>
+
+<h2 class="text-center mb-5">📘 Kitoblar</h2>
+
+<div class="container">
+  <div class="row">
+    {% for book in kitoblar %}
+      <div class="col-md-4 mb-4">
+        <div class="card h-100 shadow-sm">
+          <img src="{{ book.image.url }}" class="card-img-top" style="height: 250px; object-fit: cover;" alt="{{ book.title }}">
+          <div class="card-body d-flex flex-column">
+            <h5 class="card-title fw-bold">{{ book.title }}</h5>
+            <p class="card-text text-muted" style="font-size: 0.9em;">{{ book.description|truncatewords:20 }}</p>
+            <a href="#" class="btn btn-outline-primary mt-auto">Read More</a>
+          </div>
+        </div>
+      </div>
+    {% empty %}
+      <p class="text-center">Kitoblar mavjud emas.</p>
+    {% endfor %}
+  </div>
+
+  <!-- Pagination -->
+  <div class="d-flex justify-content-center mt-4">
+    <nav aria-label="Page navigation">
+      <ul class="pagination">
+        {% if kitoblar.has_previous %}
+          <li class="page-item">
+            <a class="page-link" href="?page={{ kitoblar.previous_page_number }}" aria-label="Previous">&laquo;</a>
+          </li>
+        {% else %}
+          <li class="page-item disabled"><span class="page-link">&laquo;</span></li>
+        {% endif %}
+
+        {% for num in kitoblar.paginator.page_range %}
+          {% if kitoblar.number == num %}
+            <li class="page-item active"><span class="page-link">{{ num }}</span></li>
+          {% else %}
+            <li class="page-item"><a class="page-link" href="?page={{ num }}">{{ num }}</a></li>
+          {% endif %}
+        {% endfor %}
+
+        {% if kitoblar.has_next %}
+          <li class="page-item">
+            <a class="page-link" href="?page={{ kitoblar.next_page_number }}" aria-label="Next">&raquo;</a>
+          </li>
+        {% else %}
+          <li class="page-item disabled"><span class="page-link">&raquo;</span></li>
+        {% endif %}
+      </ul>
+    </nav>
+  </div>
+</div>
+{% endblock %}
